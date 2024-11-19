@@ -1,0 +1,37 @@
+{
+  "name": "wd-settings",
+  "version": "2.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "npm run clean && npm i",
+    "test": "nyc --reporter=nyc-report-lcov-absolute mocha test/*.js",
+    "posttest": "echo \"$(awk '{gsub(/SF:.*\\/source\\//, \"SF:source/\")}1' coverage/lcov.info)\" > coverage/lcov.info",
+    "clean": "rm -rf dist && rm -rf node_modules",
+    "build:zip": "zip -rq --exclude=package-lock.json settings.zip node_modules/ && zip -urj settings.zip src/",
+    "build:dist": "mkdir dist && mv settings.zip dist/",
+    "build": "npm run clean && npm i --production && npm run build:zip && npm run build:dist",
+    "coverage": "nyc npm test"
+  },
+  "author": "svozza",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-config-service": "3.188.0",
+    "@aws-sdk/client-dynamodb": "3.188.0",
+    "@aws-sdk/client-ec2": "3.188.0",
+    "@aws-sdk/lib-dynamodb": "3.188.0",
+    "@tuplo/dynoexpr": "2.9.0",
+    "aws-xray-sdk-core": "3.3.8",
+    "ramda": "0.28.0"
+  },
+  "devDependencies": {
+    "aws-sdk-client-mock": "^0.6.2",
+    "chai": "^4.2.0",
+    "dynamo-db-local": "^4.1.0",
+    "mocha": "^9.1.2",
+    "nyc": "^15.1.0",
+    "nyc-report-lcov-absolute": "^1.0.0",
+    "rewire": "^6.0.0",
+    "sinon": "^9.0.2"
+  }
+}
